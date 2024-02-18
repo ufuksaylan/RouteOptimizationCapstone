@@ -1,0 +1,13 @@
+{
+  "name": "mono",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "dependencies": {
+    "node-gyp": "^10.0.1"
+  }
+}

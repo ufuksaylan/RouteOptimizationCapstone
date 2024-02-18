@@ -1,0 +1,55 @@
+import { publicProcedure } from '@server/trpc';
+import { tripSchema, Trip } from '@server/entities/trip';
+import { distanceMatrixMiddleware } from '@server/trpc/provideDistanceMatrix';
+// import { fetchDistanceMatrix } from '@server/TomTom';
+import { type LocationBare, Location } from '@server/entities/location';
+import solveTravelingSalesman from '@server/travellingSalesman';
+import type RespondTypeTSP from '@server/travellingSalesman/types/respond';
+import { createMatrices } from './service/createMatrices';
+import extractLatLngPoints from './service/extractLatLngPoints';
+
+export default publicProcedure
+  .use(distanceMatrixMiddleware)
+  .input(tripSchema.pick({ id: true }))
+  .mutation(async ({ input: trip, ctx: { db, fetchDistanceMatrix } }) => {
+    const locations = (await db.getRepository(Location).find({
+      where: {
+        tripId: trip.id,
+      },
+      order: { id: 'ASC' },
+    })) as LocationBare[];
+
+    // return locations;
+
+    const locationsForApi = extractLatLngPoints(locations);
+
+    // return locationsForApi;
+
+    const response = await fetchDistanceMatrix(
+      locationsForApi,
+      locationsForApi
+    );
+
+    const distanceMatrix = createMatrices(response);
+
+    const locationsIds = locations.map((location) => `${location.id}`);
+
+    const optimalRouteForDistance: RespondTypeTSP =
+      await solveTravelingSalesman(locationsIds, distanceMatrix);
+
+    // const optimalRouteForTime: RespondTypeTSP = await solveTravelingSalesman(
+    //   locationsIds,
+    //   timeMatrix
+    // );
+
+    await db.getRepository(Trip).update(
+      { id: trip.id },
+      {
+        optimalRoute: optimalRouteForDistance.cities.join(','),
+      }
+    );
+
+    return {
+      optimalRouteForDistance: optimalRouteForDistance.cities,
+    };
+  });
