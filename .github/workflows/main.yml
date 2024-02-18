@@ -232,7 +232,7 @@ jobs:
                 "DB_USER": "${{ secrets.PROD_DB_USER }}",
                 "DB_PASSWORD": "${{ secrets.PROD_DB_PASSWORD }}",
                 "TOKEN_KEY": "${{ secrets.TOKEN_KEY }}",
-                "TOM_TOM_API_KEY": "${{ secrets.TOM_TOM_API_KEY }}
+                "TOM_TOM_API_KEY": "${{ secrets.TOM_TOM_API_KEY }}"
               }
             }
           }' > containers.json
