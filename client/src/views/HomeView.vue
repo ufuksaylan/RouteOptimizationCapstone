@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { FwbButton } from 'flowbite-vue'
+import { sentryClientDsn } from '@/config'
 
 const throwExampleError = () => {
+  console.log(sentryClientDsn)
+
   throw new Error('This is an example error')
 }
 </script>
