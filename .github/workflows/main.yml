@@ -146,6 +146,7 @@ jobs:
     env:
       API_ORIGIN: ${{ vars.API_ORIGIN }}
       API_PATH: /v1/trpc
+      SENTRY_CLIENT_DSN: ${{ secrets.SENTRY_CLIENT_DSN }}
       CLIENT_IMAGE_TAG: client-${{ github.sha }}
       SERVER_IMAGE_TAG: server-${{ github.sha }}
     steps:
