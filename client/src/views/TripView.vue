@@ -3,10 +3,8 @@ import { useLocationStore } from '@/stores/LocationStore'
 
 import { onBeforeMount, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { Location } from '../../../server/src/entities/location'
 import Button from '@/components/Button.vue'
 import LeafletMap from '@/components/LeafletMap.vue'
-import { trpc } from '@/trpc'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,8 +12,8 @@ const tripId = Number(route.params.id)
 
 const LocationStore = useLocationStore()
 
-onBeforeMount(() => {
-  LocationStore.fetchTripAndLocations(tripId)
+onBeforeMount(async () => {
+  await LocationStore.fetchTripAndLocations(tripId)
 
   if (LocationStore.trip?.optimalRoute) {
     console.log('optimal route already calculated')
@@ -25,6 +23,10 @@ onBeforeMount(() => {
 
 function navigateToCreateLocation() {
   router.push({ name: 'AddLocation', params: { id: tripId } })
+}
+
+function navigateToAdvanceCreateLocation() {
+  router.push({ name: 'AddAdvancedLocation', params: { id: tripId } })
 }
 
 const calculate = async () => {
@@ -45,7 +47,7 @@ const calculate = async () => {
         <Button @click="navigateToCreateLocation"
           >Add Stops <span class="text-xs">(Basic)</span></Button
         >
-        <Button @click="console.log('hello')"
+        <Button @click="navigateToAdvanceCreateLocation"
           >Add Stops <span class="text-xs">(Advanced)</span></Button
         >
       </div>
@@ -73,7 +75,11 @@ const calculate = async () => {
         <div class="col-span-2">{{ location.address }}</div>
       </div> -->
       <div class="mx-auto mb-2 mt-2">
-        <button class="rounded-lg bg-bg-light p-2 text-white" @click="calculate">
+        <button
+          class="rounded-lg bg-bg-light p-2 text-white"
+          @click="calculate"
+          v-if="LocationStore.locations.length > 2"
+        >
           Calculate The optimal Route
         </button>
       </div>

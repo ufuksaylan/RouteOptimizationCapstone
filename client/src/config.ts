@@ -1,5 +1,6 @@
 export const apiOrigin = import.meta.env.VITE_API_ORIGIN as string
 export const apiPath = import.meta.env.VITE_API_PATH as string
+export const sentryClientDsn = import.meta.env.VITE_SENTRY_CLIENT_DSN as string
 export const apiBase = `${apiOrigin}${apiPath}`
 
 if (typeof apiOrigin !== 'string') {

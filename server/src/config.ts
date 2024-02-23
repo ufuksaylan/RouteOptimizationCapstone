@@ -18,6 +18,13 @@ const schema = z
     isCi: z.boolean().default(false),
     port: z.coerce.number().default(3000),
     tomTomApiKey: z.string().default(''),
+    sentryServerDsn: z.string().default(() => {
+      if (isDevTest) {
+        return '';
+      }
+
+      throw new Error('You must provide a token key in production env!');
+    }),
 
     auth: z.object({
       tokenKey: z.string().default(() => {
@@ -54,6 +61,7 @@ const config = schema.parse({
   port: env.PORT,
   isCi: env.CI === 'true',
   tomTomApiKey: env.TOM_TOM_API_KEY,
+  sentryServerDsn: env.SENTRY_SERVER_DSN,
 
   auth: {
     tokenKey: env.TOKEN_KEY,

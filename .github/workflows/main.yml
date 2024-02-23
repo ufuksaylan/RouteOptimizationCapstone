@@ -215,7 +215,8 @@ jobs:
                 "80": "HTTP"
               },
               "environment": {
-                "API_PROXY_PASS": "http://localhost:3000"
+                "API_PROXY_PASS": "http://localhost:3000",
+                "VITE_SENTRY_CLIENT_DSN": "${{ secrets.SENTRY_CLIENT_DSN }}"
               }
             },
             "server": {
@@ -232,7 +233,8 @@ jobs:
                 "DB_USER": "${{ secrets.PROD_DB_USER }}",
                 "DB_PASSWORD": "${{ secrets.PROD_DB_PASSWORD }}",
                 "TOKEN_KEY": "${{ secrets.TOKEN_KEY }}",
-                "TOM_TOM_API_KEY": "${{ secrets.TOM_TOM_API_KEY }}"
+                "TOM_TOM_API_KEY": "${{ secrets.TOM_TOM_API_KEY }}",
+                "SENTRY_SERVER_DSN": "${{ secrets.SENTRY_SERVER_DSN }}"
               }
             }
           }' > containers.json

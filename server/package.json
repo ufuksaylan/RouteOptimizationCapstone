@@ -49,6 +49,8 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
+    "@sentry/node": "^7.102.1",
+    "@sentry/profiling-node": "^7.102.1",
     "@trpc/server": "^10.41.0",
     "@types/geojson": "^7946.0.13",
     "axios": "^1.6.2",
@@ -79,6 +81,8 @@
       "slonik",
       "sqlite3"
     ],
-    "noExternal": ["superjson"]
+    "noExternal": [
+      "superjson"
+    ]
   }
 }

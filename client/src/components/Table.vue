@@ -45,7 +45,7 @@ defineProps<{
                   {{ numberOfStops[index] }}
                 </td>
                 <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
-                  {{ trip.timeCreated }}
+                  {{ new Date(trip.timeCreated).toDateString() }}
                 </td>
                 <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
                   <span v-if="trip.optimalRoute"> calculated </span>

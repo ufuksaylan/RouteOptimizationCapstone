@@ -8,6 +8,7 @@ import SuperJSON from 'superjson';
 import { ZodError } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import { fetchDistanceMatrix } from '@server/TomTom';
+import * as Sentry from '@sentry/node';
 
 type Entities = typeof entities;
 
@@ -39,6 +40,9 @@ const t = initTRPC.context<Context>().create({
   transformer: SuperJSON,
   errorFormatter(opts) {
     const { shape, error } = opts;
+
+    // Report the original error to Sentry
+    Sentry.captureException(error);
 
     if (error.cause instanceof ZodError) {
       const validationError = fromZodError(error.cause);

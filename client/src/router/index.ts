@@ -37,6 +37,11 @@ const router = createRouter({
           name: 'AddLocation',
           component: () => import('../views/AddBasicLocationView.vue'),
         },
+        {
+          path: 'trip/:id/addLocationAdvanced',
+          name: 'AddAdvancedLocation',
+          component: () => import('../views/AddAdvancedLocationView.vue'),
+        },
       ],
     },
     {
