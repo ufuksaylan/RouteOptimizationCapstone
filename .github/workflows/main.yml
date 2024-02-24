@@ -41,7 +41,7 @@ jobs:
         run: npm run typecheck -w=server
 
       - name: Type check client
-        run: npm run typecheck -w=client
+        run: npm run type-check -w=client
 
       # TODO: lint client code and server code
       - name: Lint server
