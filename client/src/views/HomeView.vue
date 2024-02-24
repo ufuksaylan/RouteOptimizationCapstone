@@ -1,12 +1,5 @@
 <script lang="ts" setup>
 import { FwbButton } from 'flowbite-vue'
-import { sentryClientDsn } from '@/config'
-
-const throwExampleError = () => {
-  console.log(sentryClientDsn)
-
-  throw new Error('This is an example error')
-}
 </script>
 
 <template>
@@ -18,8 +11,6 @@ const throwExampleError = () => {
           <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">
             A better way to track bugs
           </h2>
-
-          <button @click="throwExampleError">throw error</button>
 
           <p class="mt-4 text-gray-500 dark:text-gray-400 lg:max-w-md">
             Designed for developers, testers, and project managers alike,

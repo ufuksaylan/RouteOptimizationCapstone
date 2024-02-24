@@ -34,23 +34,14 @@ export const authRepoContext = (
   }),
 });
 
-// export const authDistanceMatrixContext = (
-//   fetchDistanceMatrix: any,
-//   user: AuthUser = fakeUser()
-// ): Context => ({
-//   authUser: authUserSchema.parse(user),
-//   ...requestContext({
-//     db: {} as any,
-//     fetchDistanceMatrix,
-//   }),
-// });
-
 export const authDistanceMatrixContext = (
   context: Partial<Context> & ContextMinimal,
   fetchDistanceMatrix: any,
+  solveTravelingSalesman: any,
   user: AuthUser = fakeUser()
 ): Context => ({
   authUser: authUserSchema.parse(user),
   fetchDistanceMatrix,
+  solveTravelingSalesman,
   ...context,
 });

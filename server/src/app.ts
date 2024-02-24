@@ -17,8 +17,6 @@ export default function createApp(db: Database) {
   const app = express();
 
   if (sentryServerDsn) {
-    console.log('Sentry enabled');
-    console.log('Sentry DSN:', sentryServerDsn);
     Sentry.init({
       dsn: sentryServerDsn,
       integrations: [
@@ -71,11 +69,11 @@ export default function createApp(db: Database) {
   );
 
   if (sentryServerDsn) {
-    console.log('Sentry error handler enabled');
     // The error handler must be registered before any other error middleware and after all controllers
     app.use(Sentry.Handlers.errorHandler());
 
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     app.use((err, req, res, next) => {
       // The error id is attached to `res.sentry` to be returned
       // and optionally displayed to the user for support.

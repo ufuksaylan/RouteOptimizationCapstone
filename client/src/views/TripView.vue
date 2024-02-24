@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useLocationStore } from '@/stores/LocationStore'
 
-import { onBeforeMount, onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Button from '@/components/Button.vue'
 import LeafletMap from '@/components/LeafletMap.vue'

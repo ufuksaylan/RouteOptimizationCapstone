@@ -8,6 +8,7 @@ import SuperJSON from 'superjson';
 import { ZodError } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import { fetchDistanceMatrix } from '@server/TomTom';
+import solveTravelingSalesman from '@server/travellingSalesman';
 import * as Sentry from '@sentry/node';
 
 type Entities = typeof entities;
@@ -32,6 +33,7 @@ export type Context = {
   };
 
   fetchDistanceMatrix?: typeof fetchDistanceMatrix;
+  solveTravelingSalesman?: typeof solveTravelingSalesman;
 };
 
 export type ContextMinimal = Pick<Context, 'db'>;
