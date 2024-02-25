@@ -25,7 +25,7 @@ export default authenticatedProcedure
     if (trip.userId !== authUser.id) {
       throw new TRPCError({
         code: 'FORBIDDEN',
-        message: `You are not allowed to access this project.`,
+        message: `You are not allowed to access this trip.`,
       });
     }
 

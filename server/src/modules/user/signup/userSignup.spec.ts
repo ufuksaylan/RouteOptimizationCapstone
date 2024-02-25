@@ -1,15 +1,16 @@
-import { createTestDatabase } from '@tests/utils/database'
-import { User } from '@server/entities'
-import { fakeUser } from '@server/entities/tests/fakes'
-import usersRouter from '..'
+import { createTestDatabase } from '@tests/utils/database';
+import { User } from '@server/entities';
+import { fakeUser } from '@server/entities/tests/fakes';
+import { TRPCError } from '@trpc/server';
+import usersRouter from '..';
 
-const db = await createTestDatabase()
-const userRepository = db.getRepository(User)
-const { signup } = usersRouter.createCaller({ db })
+const db = await createTestDatabase();
+const userRepository = db.getRepository(User);
+const { signup } = usersRouter.createCaller({ db });
 
 it('should save a user', async () => {
-  const user = fakeUser()
-  const response = await signup(user)
+  const user = fakeUser();
+  const response = await signup(user);
 
   const userCreated = (await userRepository.findOneOrFail({
     select: {
@@ -20,23 +21,23 @@ it('should save a user', async () => {
     where: {
       email: user.email,
     },
-  })) as Pick<User, 'id' | 'email' | 'password'>
+  })) as Pick<User, 'id' | 'email' | 'password'>;
 
   expect(userCreated).toEqual({
     id: expect.any(Number),
     email: user.email,
     password: expect.not.stringContaining(user.password),
-  })
+  });
 
-  expect(userCreated.password).toHaveLength(60)
+  expect(userCreated.password).toHaveLength(60);
 
   expect(response).toEqual({
     id: expect.any(Number),
     email: user.email,
-  })
+  });
 
-  expect(response.id).toEqual(userCreated!.id)
-})
+  expect(response.id).toEqual(userCreated!.id);
+});
 
 it('should require a valid email', async () => {
   await expect(
@@ -44,8 +45,8 @@ it('should require a valid email', async () => {
       email: 'user-email-invalid',
       password: 'password.123',
     })
-  ).rejects.toThrow(/email/i) // throws out some error complaining about "email"
-})
+  ).rejects.toThrow(/email/i); // throws out some error complaining about "email"
+});
 
 it('should require a password with at least 8 characters', async () => {
   await expect(
@@ -53,8 +54,8 @@ it('should require a password with at least 8 characters', async () => {
       email: 'user2@domain.com',
       password: 'pas.123',
     })
-  ).rejects.toThrow(/password/i) // throws out some error complaining about "password"
-})
+  ).rejects.toThrow(/password/i); // throws out some error complaining about "password"
+});
 
 it('throws an error for invalid email', async () => {
   await expect(
@@ -62,33 +63,48 @@ it('throws an error for invalid email', async () => {
       email: 'not-an-email',
       password: 'some-password',
     })
-  ).rejects.toThrow(/email/)
-})
+  ).rejects.toThrow(/email/);
+});
 
 it('stores lowercased email', async () => {
-  const user = fakeUser()
+  const user = fakeUser();
   await signup({
     ...user,
     email: user.email.toUpperCase(),
-  })
+  });
 
   await expect(
     userRepository.findOneByOrFail({
       email: user.email,
     })
-  ).resolves.not.toBeNull()
-})
+  ).resolves.not.toBeNull();
+});
 
 it('stores email with trimmed whitespace', async () => {
-  const user = fakeUser()
+  const user = fakeUser();
   await signup({
     ...user,
     email: ` \t ${user.email}\t `, // tabs and spaces
-  })
+  });
 
   await expect(
     userRepository.findOneByOrFail({
       email: user.email,
     })
-  ).resolves.not.toBeNull()
-})
+  ).resolves.not.toBeNull();
+});
+
+it('should not allow duplicate emails', async () => {
+  // Given a user is already signed up
+  const user = fakeUser();
+  await signup(user);
+
+  // When signing up with the same email
+  // Then it should throw an error indicating duplicate email
+  await expect(signup(user)).rejects.toThrowError(
+    new TRPCError({
+      code: 'BAD_REQUEST',
+      message: 'User with this email already exists',
+    })
+  );
+});

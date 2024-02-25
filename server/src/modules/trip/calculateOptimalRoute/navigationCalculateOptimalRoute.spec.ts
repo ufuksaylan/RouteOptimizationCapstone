@@ -103,5 +103,7 @@ it('should give the optimal route', async () => {
   const solution = await calculateOptimalRoute(trip);
 
   // ASSERT (Then)
-  expect(solution.optimalRouteForDistance.sort()).toEqual(['1', '2'].sort());
+  expect(solution.optimalRouteForDistance.sort()).toEqual(
+    [`${location1.id}`, `${location2.id}`].sort()
+  );
 });

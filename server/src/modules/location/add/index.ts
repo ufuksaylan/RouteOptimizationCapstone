@@ -6,14 +6,14 @@ import { TRPCError } from '@trpc/server';
 export default publicProcedure
   .input(locationInsertSchema)
   .mutation(async ({ input: location, ctx: { db } }) => {
-    const project = await db.getRepository(Trip).findOneBy({
+    const trip = await db.getRepository(Trip).findOneBy({
       id: location.tripId,
     });
 
-    if (!project) {
+    if (!trip) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: 'Project not found',
+        message: 'Trip not found',
       });
     }
 
