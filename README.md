@@ -35,16 +35,18 @@ npm run dev
 npm run dev:mem
 ```
 
-## Route Optimization Server
+## Route Optimization
 
-This server-side application is developed to demonstrate a practical implementation of route optimization algorithms.
+it is developed to demonstrate a practical implementation of route optimization algorithms.
 
 ## Project Overview
 
-This server-side application is developed as a coding project to demonstrate the implementation of route optimization algorithms. The primary functionality is to calculate the most efficient route through a series of user-defined destinations. It's particularly useful for scenarios like tourists planning a city tour or individuals needing to visit multiple locations in a single trip. The algorithm focuses on minimizing travel distance and time, providing a practical solution to complex routing problems. This project showcases the application of algorithmic problem-solving in real-world travel scenarios.
+This application is developed as a coding project to demonstrate the implementation of route optimization algorithms. The primary functionality is to calculate the most efficient route through a series of user-defined destinations. It's particularly useful for scenarios like tourists planning a city tour or individuals needing to visit multiple locations in a single trip. The algorithm focuses on minimizing travel distance and time, providing a practical solution to complex routing problems. This project showcases the application of algorithmic problem-solving in real-world travel scenarios.
 
 ## Features
 
 - **Optimal Route Calculation**: Calculates the most efficient route for multiple destinations.
 - **Multiple Destination Support**: Allows input of any number of destinations.
 - **Practical Application**: Demonstrates the use of route optimization in everyday scenarios.
+
+https://routeoptimization.qmmjto488dmgk.eu-central-1.cs.amazonlightsail.com
