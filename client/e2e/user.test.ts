@@ -1,8 +1,27 @@
-// import { test, expect } from '@playwright/test'
-// import { loginNewUser } from 'utils/api'
-// import { fakeUser } from 'utils/fakeData'
+import { test, expect } from '@playwright/test'
+import { loginNewUser } from 'utils/api'
+import { fakeUser } from 'utils/fakeData'
 
-// const { email, password } = fakeUser()
+const { email, password } = fakeUser()
+
+test.describe('signup and login sequence', () => {
+  test('visitor can signup', async ({ page }) => {
+    // Given (ARRANGE)
+    await page.goto('/signup')
+    const successMessage = page.locator('[data-testid="successMessage"]')
+    await expect(successMessage).toBeHidden() // sanity check
+
+    // When (ACT)
+    await page.locator('input[type="email"]').click()
+    await page.locator('input[type="email"]').fill(email)
+    await page.locator('input[type="email"]').press('Tab')
+    await page.locator('input[name="password"]').fill(password)
+    await page.getByRole('button', { name: 'Sign up' }).click()
+
+    // assert
+    await expect(successMessage).toBeVisible() // Wait up to 10 seconds
+  })
+})
 
 // // We are grouping these tests in a serial block to clearly
 // // indicate that these tests should be run in the provided order.
