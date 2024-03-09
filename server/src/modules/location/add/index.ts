@@ -18,6 +18,10 @@ export default publicProcedure
     }
 
     const locationCreated = await db.getRepository(Location).save(location);
+    await db.getRepository(Trip).update(trip.id, {
+      numberOfLocations:
+        trip.numberOfLocations === 0 ? 1 : trip.numberOfLocations + 1,
+    });
 
     return locationCreated;
   });

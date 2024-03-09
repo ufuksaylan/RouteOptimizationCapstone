@@ -12,6 +12,7 @@ const tripForm = ref({
   name: '',
   optimalRoute: '',
   timeCreated: new Date(),
+  numberOfLocations: 0,
 })
 
 const [createProject, errorMessage] = useErrorMessage(async () => {

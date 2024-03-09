@@ -35,6 +35,9 @@ export class Trip {
   @OneToMany(() => Location, (location) => location.trip)
   locations: Location[];
 
+  @Column('integer', { nullable: true })
+  numberOfLocations: number;
+
   @CreateDateColumn()
   timeCreated: Date;
 }
@@ -52,6 +55,7 @@ export const tripSchema = validates<TripBare>().with({
     .max(100),
   optimalRoute: z.string(),
   timeCreated: z.date(),
+  numberOfLocations: z.number(),
 });
 
 export const tripInsertSchema = tripSchema.omit({ id: true });

@@ -16,6 +16,7 @@ const locations = ref<Location[]>([])
 const googleMapInput = ref(null)
 
 const name = ref('')
+const errorMessage = ref('')
 
 const latitude = ref<number>()
 const longitude = ref<number>()
@@ -28,7 +29,8 @@ onBeforeMount(() => {
 
 const clearForm = () => {
   name.value = ''
-  googleMapInput.value = null
+  // @ts-ignore
+  googleMapInput.value.clear()
   latitude.value = undefined
   longitude.value = undefined
   address.value = ''
@@ -43,6 +45,8 @@ const getAddressData = (addressData: any, placeResultData: any, id: any) => {
 }
 
 const addLocation = async () => {
+  errorMessage.value = ''
+
   if (!name.value) {
     return
   }
@@ -59,9 +63,14 @@ const addLocation = async () => {
     type: type.value,
     tripId: tripId,
   }
-  const newLocation = await LocationStore.createLocation(location)
 
-  locations.value.push(newLocation)
+  try {
+    const newLocation = await LocationStore.createLocation(location)
+
+    locations.value.push(newLocation)
+  } catch (error) {
+    errorMessage.value = (error as any).message
+  }
 
   clearForm()
 }
@@ -101,18 +110,28 @@ const addLocation = async () => {
           Save
         </button>
       </form>
+
+      <p v-if="errorMessage" class="mx-4 text-3xl text-red-500">{{ errorMessage }}</p>
     </div>
 
     <!-- ({ name: 'Project', params: { id: project.id } } as any) -->
-    <router-link
-      :to="{ name: 'Trip', params: { id: tripId } }"
-      class="fixed bottom-2 right-5 rounded-lg bg-bg-light p-2 text-white"
-    >
-      Done</router-link
-    >
+    <div class="flex h-full place-content-between items-center p-2">
+      <router-link
+        :to="{ name: 'Trip', params: { id: tripId } }"
+        class="mt-4 w-1/2 rounded-lg bg-bg-light p-2 text-center text-white md:w-1/5"
+      >
+        Back</router-link
+      >
+      <router-link
+        :to="{ name: 'Trip', params: { id: tripId } }"
+        class="mt-4 w-1/2 rounded-lg bg-bg-light p-2 text-center text-white md:w-1/5"
+      >
+        Done</router-link
+      >
+    </div>
   </div>
-  <p>latitude-{{ latitude }}</p>
+  <!-- <p>latitude-{{ latitude }}</p>
   <p>longitude-{{ longitude }}</p>
   <p>address - {{ address }}</p>
-  <p>type - {{ type }}</p>
+  <p>type - {{ type }}</p> -->
 </template>

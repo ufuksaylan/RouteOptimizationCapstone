@@ -5,17 +5,11 @@ import { trpc } from '@/trpc'
 export const useTripStore = defineStore('tripStore', {
   state: () => ({
     trips: [] as TripBare[],
-    numberOfLocations: [] as number[],
   }),
 
   actions: {
     async fetchTrips() {
       this.trips = await trpc.trip.find.query()
-
-      this.trips.forEach(async (trip) => {
-        const locations = await trpc.location.find.query({ tripId: trip.id })
-        this.numberOfLocations.push(locations.length)
-      })
     },
   },
 

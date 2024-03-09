@@ -3,7 +3,6 @@ import type { TripBare } from '@mono/server/src/shared/entities'
 
 defineProps<{
   trips: TripBare[]
-  numberOfStops: number[]
 }>()
 </script>
 
@@ -34,7 +33,7 @@ defineProps<{
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(trip, index) in trips" :key="trip.id" class="border-b bg-gray-100">
+              <tr v-for="trip in trips" :key="trip.id" class="border-b bg-gray-100">
                 <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
                   {{ trip.id }}
                 </td>
@@ -42,7 +41,7 @@ defineProps<{
                   {{ trip.name }}
                 </td>
                 <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
-                  {{ numberOfStops[index] }}
+                  {{ trip.numberOfLocations }}
                 </td>
                 <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
                   {{ new Date(trip.timeCreated).toDateString() }}

@@ -62,10 +62,7 @@ onMounted(() => {
     </div>
 
     <div class="table-container overflow-x-auto">
-      <Table
-        :trips="TripStore.filteredTrips(startDate, endDate)"
-        :numberOfStops="TripStore.numberOfLocations"
-      ></Table>
+      <Table :trips="TripStore.filteredTrips(startDate, endDate)"></Table>
     </div>
   </div>
 </template>

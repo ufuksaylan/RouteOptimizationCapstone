@@ -2,9 +2,10 @@
 import { useLocationStore } from '@/stores/LocationStore'
 import type { LocationInsert, Location } from '@mono/server/src/shared/entities'
 import { ref, onBeforeMount } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 
 const tripId = Number(route.params.id)
 
@@ -30,13 +31,6 @@ const clearForm = () => {
   type.value = ''
 }
 
-const getAddressData = (addressData: any, placeResultData: any, id: any) => {
-  address.value = placeResultData.formatted_address
-  type.value = placeResultData.types[0]
-  latitude.value = placeResultData.geometry.location.lat()
-  longitude.value = placeResultData.geometry.location.lng()
-}
-
 const addLocation = async () => {
   if (!name.value) {
     return
@@ -49,14 +43,15 @@ const addLocation = async () => {
   const location: LocationInsert = {
     name: name.value,
     address: address.value || '',
-    latitude: latitude.value,
-    longitude: longitude.value,
+    latitude: Number(latitude.value),
+    longitude: Number(longitude.value),
     type: type.value,
     tripId: tripId,
   }
   const newLocation = await LocationStore.createLocation(location)
 
   locations.value.push(newLocation)
+  router.push({ name: 'Trip', params: { id: tripId } })
 
   clearForm()
 }
@@ -73,7 +68,7 @@ const addLocation = async () => {
 
     <div class="">
       <div class="border border-gray-300 p-6 sm:rounded-md">
-        <form method="POST" action="https://herotofu.com/start" enctype="multipart/form-data">
+        <form action="#" @submit.prevent="addLocation">
           <label class="mb-6 block">
             <span class="text-gray-700">Address Name</span>
             <input

@@ -1,5 +1,5 @@
 // import { publicProcedure } from '@server/trpc';
-import { tripSchema, Trip } from '@server/entities/trip';
+import { tripSchema, Trip, type TripBare } from '@server/entities/trip';
 import { distanceMatrixMiddleware } from '@server/trpc/provideDistanceMatrix';
 import { type LocationBare, Location } from '@server/entities/location';
 // import solveTravelingSalesman from '@server/travellingSalesman';
@@ -18,6 +18,14 @@ export default authenticatedProcedure
       input: trip,
       ctx: { db, fetchDistanceMatrix, solveTravelingSalesman },
     }) => {
+      const tripFound = (await db.getRepository(Trip).findOne({
+        where: { id: trip.id },
+      })) as TripBare;
+
+      if (tripFound.optimalRoute) {
+        throw new Error('Optimal route is calculated');
+      }
+
       const locations = (await db.getRepository(Location).find({
         where: {
           tripId: trip.id,
