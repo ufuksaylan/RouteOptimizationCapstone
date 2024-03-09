@@ -54,7 +54,8 @@ test.describe('signup and login sequence', () => {
     await loginNewUser(page)
 
     await page.goto('/dashboard')
-    const logoutLink = page.getByRole('link', { name: 'Logout' })
+
+    const logoutLink = await page.getByTestId('logoutLink').getByRole('img', { name: 'logo' })
 
     // When (ACT)
     await logoutLink.click()
