@@ -15,6 +15,7 @@ it('should create a persisted project', async () => {
     name: 'My Special Trip',
     optimalRoute: '',
     timeCreated: new Date(),
+    numberOfLocations: 0,
   });
 
   // ASSERT
