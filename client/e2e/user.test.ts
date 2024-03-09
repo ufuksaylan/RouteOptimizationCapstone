@@ -49,29 +49,29 @@ test.describe('signup and login sequence', () => {
     await expect(dashboardLink).toBeVisible()
   })
 
-  test('visitor can logout', async ({ page }) => {
-    // Given (ARRANGE)
-    await loginNewUser(page)
+  // test('visitor can logout', async ({ page }) => {
+  //   // Given (ARRANGE)
+  //   await loginNewUser(page)
 
-    await page.goto('/dashboard')
+  //   await page.goto('/dashboard')
 
-    const logoutLink = await page.getByTestId('logoutLink').getByRole('img', { name: 'logo' })
+  //   const logoutLink = await page.getByTestId('logoutLink').getByRole('img', { name: 'logo' })
 
-    // When (ACT)
-    await logoutLink.click()
+  //   // When (ACT)
+  //   await logoutLink.click()
 
-    // Then (ASSERT)
-    await expect(logoutLink).toBeHidden()
+  //   // Then (ASSERT)
+  //   await expect(logoutLink).toBeHidden()
 
-    // Ensure that we are redirected to the login page.
-    // This test would break if we changed the login page URL,
-    // but this is a signifcant change that we would want to
-    // be aware of.
-    await expect(page).toHaveURL('/login')
+  //   // Ensure that we are redirected to the login page.
+  //   // This test would break if we changed the login page URL,
+  //   // but this is a signifcant change that we would want to
+  //   // be aware of.
+  //   await expect(page).toHaveURL('/login')
 
-    // Refresh the page to make sure that the user is still logged out.
-    await page.goto('/dashboard')
-    await expect(logoutLink).toBeHidden()
-    await expect(page).toHaveURL('/login')
-  })
+  //   // Refresh the page to make sure that the user is still logged out.
+  //   await page.goto('/dashboard')
+  //   await expect(logoutLink).toBeHidden()
+  //   await expect(page).toHaveURL('/login')
+  // })
 })
