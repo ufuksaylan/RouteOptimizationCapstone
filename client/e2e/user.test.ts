@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import { loginNewUser } from 'utils/api'
 import { fakeUser } from 'utils/fakeData'
 
 const { email, password } = fakeUser()
@@ -39,7 +38,7 @@ test.describe('signup and login sequence', () => {
     await page.locator('input[type="email"]').fill(email)
     await page.locator('input[type="password"]').fill(password)
     await page.locator('input[name="password"]').press('Enter')
-    await page.getByTestId('loginForm').click()
+    // await page.getByTestId('loginForm').click()
 
     // Then (ASSERT)
     await expect(dashboardLink).toBeVisible()
@@ -51,7 +50,7 @@ test.describe('signup and login sequence', () => {
 
   // test('visitor can logout', async ({ page }) => {
   //   // Given (ARRANGE)
-  //   await loginNewUser(page)
+  // await loginNewUser(page)
 
   //   await page.goto('/dashboard')
 
